@@ -119,7 +119,6 @@
   }
   .titlebar > .controls {
     font-family: monospace;
-
     display: flex;
   }
   .titlebar button {
