@@ -42,7 +42,7 @@
     placeholder="Send a message as flamingo_lindo..."
     class="w-full resize-none bg-[#111111] {message.length > 500
       ? 'text-red-500'
-      : 'text-white'} placeholder:text-[#ffffff41] overflow-hidden p-3 block focus:ring-0 border-0 rounded-b-[10px]"
+      : 'text-white'} placeholder:text-[#ffffff41] overflow-hidden p-3 block focus:ring-0 border-0"
     rows="1"
   ></textarea>
   <!-- TODO add emote menu -->
