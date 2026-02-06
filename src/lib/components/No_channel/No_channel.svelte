@@ -1,29 +1,29 @@
 <script lang="ts">
-  import type { MyChannels } from "$lib/DTO/ITwitch";
+  import type { IChannel } from "$lib/DTO/ITwitch";
   import CustomModal from "../shared/Custom_modal/Custom_modal.svelte";
 
-  let {
-    channels = $bindable(),
-    selectedChannelId = $bindable(),
-  }: { channels: MyChannels; selectedChannelId: number } = $props();
   let isModalOpen: boolean = $state(false);
+
   let channelName: string = $state("");
   let errorMessage: string = $state("");
 
+  let {
+    channels,
+    selectedChannelId = $bindable(),
+  }: {
+    channels: IChannel[];
+    selectedChannelId: number;
+  } = $props();
+
   function handleConfirm() {
     if (channelName.trim()) {
-      if (channels.some((channel) => channel.channel === channelName)) {
-        errorMessage = "Channel already added!";
-        return;
-      }
       let newId = channels.length + 1;
-
       let newChannel = {
         id: newId,
         channel: channelName,
         isLive: false,
         newMessages: false,
-        isSelected: false,
+        isSelected: true,
         messages: [],
       };
       channels.push(newChannel);
@@ -37,30 +37,30 @@
   }
 </script>
 
+{#if isModalOpen}
+  <CustomModal
+    title={"Add channel"}
+    text={"Join a Twitch channel by its channel name"}
+    input
+    bind:isModalOpen
+    bind:inputValue={channelName}
+    bind:errorMessage
+    onConfirm={handleConfirm}
+  />
+{/if}
+
 <button
-  class="relative mr-1 p-1 min-w-24 border border-red-200 hover:bg-[#ff64676c] transition ease-in-out flex items-center bg-[#ffffff2f] mb-1.5 focus:ring-0"
-  onclick={() => {
-    isModalOpen = true;
-    errorMessage = "";
-  }}
+  class="w-1/2 animate-pulse grid text-white place-items-center border-2 border-white border-dashed bg-[#111111] hover:bg-[#3a3a3a] p-2 cursor-pointer"
+  onclick={() => (isModalOpen = true)}
 >
+  <p>You don't have any channels</p>
+  <p>Click here to add a channel</p>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="15"
-    height="15"
+    width="25"
+    height="25"
     viewBox="0 0 24 24"
   >
     <path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z" />
   </svg>
-  Add channel
 </button>
-
-<CustomModal
-  title={"Add channel"}
-  text={"Join a Twitch channel by its channel name"}
-  input
-  bind:isModalOpen
-  bind:inputValue={channelName}
-  bind:errorMessage
-  onConfirm={handleConfirm}
-/>
