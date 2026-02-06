@@ -11,8 +11,8 @@
     channels.find((c: IChannel) => c.id === selectedChannelId),
   );
   let currentMessages = $derived(currentChannel?.messages || []);
-
   let messagesContainer: HTMLDivElement;
+  let chatInputElement: HTMLDivElement;
   let isAtBottom = $state(true);
 
   function checkIfAtBottom() {
@@ -55,7 +55,7 @@
   });
 </script>
 
-<div class="flex flex-col h-full overflow-y-auto">
+<div class="flex flex-col h-full overflow-y-auto relative">
   <div
     class="flex-1 overflow-y-auto mt-2 text-white"
     bind:this={messagesContainer}
@@ -78,17 +78,18 @@
       </div>
     {/each}
   </div>
-  {#if !isAtBottom}
-    <button
-      class="cursor-pointer flex items-center justify-center text-white bg-black/25 p-0.5"
-      onclick={() => {
-        if (messagesContainer) {
-          messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-      }}>See current messages</button
-    >
-  {/if}
-  <div>
+
+  <div class="relative" bind:this={chatInputElement}>
+    {#if !isAtBottom}
+      <button
+        class="absolute w-full bottom-full cursor-pointer flex items-center justify-center text-white bg-black/80 p-1.5 z-10"
+        onclick={() => {
+          if (messagesContainer) {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          }
+        }}>See current messages</button
+      >
+    {/if}
     <ChatInput onSubmit={handleMessageSubmit} />
   </div>
 </div>

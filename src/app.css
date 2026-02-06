@@ -1,3 +1,12 @@
 @import "tailwindcss";
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+ :root ::-webkit-scrollbar {
+    width: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+:root ::-webkit-scrollbar-thumb {
+    background-color: #504f4f;
+    min-height: 1px;
+}
