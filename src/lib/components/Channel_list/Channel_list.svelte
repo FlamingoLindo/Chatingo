@@ -1,20 +1,21 @@
 <script lang="ts">
-  import { mockMyChannels } from "../../../mock/mock.data";
   import type { IChannel } from "$lib/DTO/ITwitch";
   import AddChannel from "../Add_channel/Add_channel.svelte";
   import NoChannel from "../No_channel/No_channel.svelte";
   import CustomModal from "../shared/Custom_modal/Custom_modal.svelte";
+  import OpenChannel from "../Open_channel/Open_channel.svelte";
 
   let {
     channels = $bindable({
       myChannels: [],
     }),
     selectedChannelId = $bindable(),
+    isTwitchOpen = $bindable(false),
   }: {
     channels: { myChannels: IChannel[] };
     selectedChannelId: number;
+    isTwitchOpen: boolean;
   } = $props();
-
   let isModalOpen: boolean = $state(false);
 
   function selectChannel(id: number) {
@@ -149,6 +150,9 @@
 
       <!-- Add new channel -->
       <AddChannel bind:channels={channels.myChannels} bind:selectedChannelId />
+
+      <!-- Open/Close stream -->
+      <OpenChannel bind:isTwitchOpen />
     </ul>
   </div>
 {:else}
