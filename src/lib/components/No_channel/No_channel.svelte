@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IChannel } from "$lib/DTO/ITwitch";
+  import type { IChannel } from "$lib/apis/DTO/ITwitch";
   import CustomModal from "../shared/Custom_modal/Custom_modal.svelte";
 
   let isModalOpen: boolean = $state(false);

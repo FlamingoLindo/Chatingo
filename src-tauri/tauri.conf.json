@@ -12,11 +12,22 @@
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "Chatingo",
         "width": 800,
         "height": 600,
         "decorations": false,
         "zoomHotkeysEnabled": true
+      },
+      {
+        "label": "emote-window",
+        "url": "/emote-tab",
+        "title": "Chatingo - Emotes",
+        "width": 800,
+        "height": 600,
+        "decorations": false,
+        "zoomHotkeysEnabled": true,
+        "visible": false
       }
     ],
     "security": {

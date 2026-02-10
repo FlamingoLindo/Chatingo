@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { MyChannels } from "$lib/DTO/ITwitch";
+  import type { MyChannels } from "$lib/apis/DTO/ITwitch";
   import AddChannel from "../Add_channel/Add_channel.svelte";
   import OpenChannel from "../Open_channel/Open_channel.svelte";
 

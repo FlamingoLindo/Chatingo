@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { MyChannels } from "$lib/DTO/ITwitch";
+  import type { MyChannels } from "$lib/apis/DTO/ITwitch";
   import CustomModal from "../shared/Custom_modal/Custom_modal.svelte";
 
   let {
