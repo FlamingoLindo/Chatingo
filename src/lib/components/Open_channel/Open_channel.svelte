@@ -1,10 +1,19 @@
 <script lang="ts">
-  let { isTwitchOpen = $bindable(false) }: { isTwitchOpen: boolean } = $props();
+  let {
+    isTwitchOpen = $bindable(),
+    onAction,
+  }: {
+    isTwitchOpen: boolean;
+    onAction?: () => void;
+  } = $props();
 </script>
 
 <button
-  onclick={() => (isTwitchOpen = !isTwitchOpen)}
-  class="relative mr-1 p-1 min-w-24 border border-red-200 hover:bg-[#ff64676c] transition ease-in-out flex items-center mb-1.5 focus:ring-0"
+  onclick={() => {
+    isTwitchOpen = !isTwitchOpen;
+    onAction?.();
+  }}
+  class="relative p-1 w-full hover:bg-[#ff64676c] transition ease-in-out flex items-center border-b-white border focus:ring-0"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"

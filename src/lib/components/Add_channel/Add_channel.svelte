@@ -5,7 +5,13 @@
   let {
     channels = $bindable(),
     selectedChannelId = $bindable(),
-  }: { channels: MyChannels; selectedChannelId: number } = $props();
+    onAction,
+  }: {
+    channels: MyChannels;
+    selectedChannelId: number;
+    onAction?: () => void;
+  } = $props();
+
   let isModalOpen: boolean = $state(false);
   let channelName: string = $state("");
   let errorMessage: string = $state("");
@@ -17,7 +23,6 @@
         return;
       }
       let newId = channels.length + 1;
-
       let newChannel = {
         id: newId,
         channel: channelName,
@@ -31,6 +36,7 @@
       channelName = "";
       errorMessage = "";
       isModalOpen = false;
+      onAction?.(); // Close the context menu
     } else {
       errorMessage = "Please enter a channel name";
     }
@@ -38,7 +44,7 @@
 </script>
 
 <button
-  class="relative mr-1 p-1 min-w-24 border border-red-200 hover:bg-[#ff64676c] transition ease-in-out flex items-center bg-[#ffffff2f] mb-1.5 focus:ring-0"
+  class="relative p-1 w-full hover:bg-[#ff64676c] transition ease-in-out flex items-center border-b-white border focus:ring-0"
   onclick={() => {
     isModalOpen = true;
     errorMessage = "";

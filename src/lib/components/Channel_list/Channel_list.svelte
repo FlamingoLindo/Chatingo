@@ -4,6 +4,7 @@
   import NoChannel from "../No_channel/No_channel.svelte";
   import CustomModal from "../shared/Custom_modal/Custom_modal.svelte";
   import OpenChannel from "../Open_channel/Open_channel.svelte";
+  import ChannelOptions from "../Options/Channel_options.svelte";
 
   let {
     channels = $bindable({
@@ -147,12 +148,7 @@
           </div>
         </button>
       {/each}
-
-      <!-- Add new channel -->
-      <AddChannel bind:channels={channels.myChannels} bind:selectedChannelId />
-
-      <!-- Open/Close stream -->
-      <OpenChannel bind:isTwitchOpen />
+      <ChannelOptions bind:channels={channels.myChannels} bind:selectedChannelId bind:isTwitchOpen />
     </ul>
   </div>
 {:else}
