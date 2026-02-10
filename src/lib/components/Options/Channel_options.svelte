@@ -14,14 +14,73 @@
   } = $props();
 
   let contextOpen: boolean = $state(false);
+  let menuElement: HTMLDivElement | null = $state(null);
+  let buttonElement: HTMLButtonElement | null = $state(null);
+  let menuPosition = $state<"bottom" | "top">("bottom");
+  let menuAlignment = $state<"left" | "right">("left");
 
   function closeMenu() {
     contextOpen = false;
   }
+
+  function calculatePosition() {
+    if (!buttonElement || !menuElement) return;
+
+    const buttonRect = buttonElement.getBoundingClientRect();
+    const menuRect = menuElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+
+    const spaceBelow = viewportHeight - buttonRect.bottom;
+    const spaceAbove = buttonRect.top;
+
+    if (spaceBelow < menuRect.height && spaceAbove > spaceBelow) {
+      menuPosition = "top";
+    } else {
+      menuPosition = "bottom";
+    }
+
+    const spaceRight = viewportWidth - buttonRect.left;
+
+    if (spaceRight < menuRect.width) {
+      menuAlignment = "right";
+    } else {
+      menuAlignment = "left";
+    }
+  }
+
+  $effect(() => {
+    if (contextOpen && menuElement) {
+      calculatePosition();
+    }
+  });
+
+  $effect(() => {
+    if (!contextOpen) return;
+
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Node;
+      if (
+        menuElement &&
+        buttonElement &&
+        !menuElement.contains(target) &&
+        !buttonElement.contains(target)
+      ) {
+        closeMenu();
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  });
 </script>
 
-<div class="relative">
+<div class="relative w-max">
   <button
+    bind:this={buttonElement}
     onclick={() => (contextOpen = !contextOpen)}
     class="relative p-1 w-max border border-red-200 hover:bg-[#ff64676c] transition ease-in-out flex items-center mb-1.5 focus:ring-0 gap-1"
   >
@@ -38,10 +97,15 @@
     </svg>
     Options
   </button>
-
   {#if contextOpen}
     <div
-      class="absolute top-full w-30 bg-[#1111] border border-gray-200 shadow-lg rounded z-10"
+      bind:this={menuElement}
+      class="absolute w-30 bg-[#111111] border border-gray-200 shadow-lg rounded z-1"
+      class:top-full={menuPosition === "bottom"}
+      class:bottom-full={menuPosition === "top"}
+      class:left-0={menuAlignment === "left"}
+      class:right-0={menuAlignment === "right"}
+      class:mb-1={menuPosition === "top"}
     >
       <!-- Add new channel -->
       <AddChannel bind:channels bind:selectedChannelId onAction={closeMenu} />
