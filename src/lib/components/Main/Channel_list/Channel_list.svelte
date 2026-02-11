@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { IChannel } from "$lib/apis/DTO/ITwitch";
-  import NoChannel from "../No_channel/No_channel.svelte";
-  import CustomModal from "../shared/Custom_modal/Custom_modal.svelte";
-  import ChannelOptions from "../Options/Channel_options.svelte";
+  import type { IChannel } from '$lib/apis/DTO/ITwitch';
+  import CustomModal from '$lib/components/shared/Custom_modal/Custom_modal.svelte';
+  import NoChannel from '../No_channel/No_channel.svelte';
+  import ChannelOptions from '../Options/Channel_options.svelte';
 
   let {
     channels = $bindable({
@@ -41,7 +41,7 @@
   function removeChannel() {
     if (selectedChannelId !== null) {
       channels.myChannels = channels.myChannels.filter(
-        (c: IChannel) => c.id !== selectedChannelId,
+        (c: IChannel) => c.id !== selectedChannelId
       );
       if (channels.myChannels.length > 0) {
         channels.myChannels[0].isSelected = true;
@@ -54,7 +54,7 @@
   function handleWheel(event: WheelEvent) {
     event.preventDefault();
     const currentIndex = channels.myChannels.findIndex(
-      (c: IChannel) => c.isSelected,
+      (c: IChannel) => c.isSelected
     );
     let nextIndex;
 
@@ -76,8 +76,8 @@
     onwheel={handleWheel}
   >
     <CustomModal
-      title={"Remove this channel"}
-      text={"Are you sure that you want to remove this channel?"}
+      title={'Remove this channel'}
+      text={'Are you sure that you want to remove this channel?'}
       bind:isModalOpen
       onConfirm={removeChannel}
     />
@@ -124,7 +124,7 @@
                   openRemoveModal(channel.id);
                 }}
                 onkeydown={(e) => {
-                  if (e.key === "Enter") {
+                  if (e.key === 'Enter') {
                     e.stopPropagation();
                     openRemoveModal(channel.id);
                   }

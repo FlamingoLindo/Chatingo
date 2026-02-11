@@ -4,8 +4,8 @@
     text,
     input,
     isModalOpen = $bindable(false),
-    inputValue = $bindable(""),
-    errorMessage = $bindable(""),
+    inputValue = $bindable(''),
+    errorMessage = $bindable(''),
     onConfirm,
   } = $props<{
     title: string;
@@ -32,7 +32,7 @@
 
   function handleKeydown(e: KeyboardEvent) {
     if (e.target instanceof HTMLInputElement) {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         isModalOpen = false;
       }
       return;
@@ -40,10 +40,10 @@
 
     const key = e.key.toLowerCase();
 
-    if (key === "y" || key === "enter" || key === " ") {
+    if (key === 'y' || key === 'enter' || key === ' ') {
       e.preventDefault();
       onConfirm();
-    } else if (key === "escape" || key === "c") {
+    } else if (key === 'escape' || key === 'c') {
       e.preventDefault();
       isModalOpen = false;
     }
@@ -68,7 +68,7 @@
           role="button"
           tabindex="0"
           onclick={() => (isModalOpen = false)}
-          onkeydown={(e) => e.key === "Enter" && (isModalOpen = false)}
+          onkeydown={(e) => e.key === 'Enter' && (isModalOpen = false)}
           class="hover:bg-[#ffffff36] cursor-pointer"
         >
           <svg

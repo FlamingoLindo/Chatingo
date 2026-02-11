@@ -1,34 +1,34 @@
 <script lang="ts">
-  import EmoteMenu from "../Emote_menu/Emote_menu.svelte";
+  import EmoteMenu from '../Emote_menu/Emote_menu.svelte';
 
   interface Props {
     onSubmit?: (message: string) => void;
   }
 
   let { onSubmit }: Props = $props();
-  let message: string = $state("");
+  let message: string = $state('');
 
   function autoResize(textarea: HTMLTextAreaElement) {
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
 
   function handleSubmit(e: Event) {
     e.preventDefault();
     if (message.trim() && message.length <= 500) {
       onSubmit?.(message);
-      message = "";
-      const textarea = (e.target as HTMLFormElement).querySelector("textarea");
+      message = '';
+      const textarea = (e.target as HTMLFormElement).querySelector('textarea');
       if (textarea) {
-        textarea.style.height = "auto";
+        textarea.style.height = 'auto';
       }
     }
   }
 
   function handleKeyDown(e: KeyboardEvent) {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      const form = (e.target as HTMLTextAreaElement).closest("form");
+      const form = (e.target as HTMLTextAreaElement).closest('form');
       form?.requestSubmit();
     }
   }

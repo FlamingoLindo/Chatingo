@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { IChannel, IMessage } from "$lib/apis/DTO/ITwitch";
-  import ChatInput from "../Chat_input/Chat_input.svelte";
+  import type { IChannel, IMessage } from '$lib/apis/DTO/ITwitch';
+  import ChatInput from '../Chat_input/Chat_input.svelte';
 
   let { selectedChannelId, channels = $bindable() } = $props<{
     selectedChannelId: number;
@@ -8,7 +8,7 @@
   }>();
 
   let currentChannel = $derived(
-    channels.find((c: IChannel) => c.id === selectedChannelId),
+    channels.find((c: IChannel) => c.id === selectedChannelId)
   );
   let currentMessages = $derived(currentChannel?.messages || []);
   let messagesContainer: HTMLDivElement;
@@ -28,12 +28,12 @@
 
   function handleMessageSubmit(message: string) {
     const newMessage: IMessage = {
-      time: new Date().toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
+      time: new Date().toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
         hour12: false,
       }),
-      sender: { username: "flamingo_lindo", color: "#fcba03", badges: [] },
+      sender: { username: 'flamingo_lindo', color: '#fcba03', badges: [] },
       content: message,
     };
     const channel = channels.find((c: IChannel) => c.id === selectedChannelId);
@@ -44,7 +44,7 @@
   }
 
   function formatBadgeUrl(badgeUrl: string) {
-    const formattedUrl = badgeUrl.replace("{SIZE}", "1");
+    const formattedUrl = badgeUrl.replace('{SIZE}', '1');
     return formattedUrl;
   }
 

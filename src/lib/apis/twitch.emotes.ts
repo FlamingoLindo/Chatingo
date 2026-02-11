@@ -18,8 +18,8 @@ class GlobalEmotesApi {
         const config: RequestInit = {
             ...options,
             headers: {
-                'Client-ID': '',
-                'Authorization': 'Bearer ',
+                'Client-ID': 'gp762nuuoqcoxypju8c569th9wz7q5',
+                'Authorization': 'Bearer nq3daki13eldswzl92tkn3k3t7ln1j',
                 ...options.headers
             }
         };

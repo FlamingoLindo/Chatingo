@@ -1,7 +1,7 @@
 <script lang="ts">
-  import "../../app.css";
-  import { getCurrentWindow } from "@tauri-apps/api/window";
-  import type { Snippet } from "svelte";
+  import '../../app.css';
+  import { getCurrentWindow } from '@tauri-apps/api/window';
+  import type { Snippet } from 'svelte';
   interface Props {
     children: Snippet;
   }

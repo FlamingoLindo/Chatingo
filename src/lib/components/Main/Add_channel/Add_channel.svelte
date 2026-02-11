@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { MyChannels } from "$lib/apis/DTO/ITwitch";
-  import CustomModal from "../shared/Custom_modal/Custom_modal.svelte";
+  import type { MyChannels } from '$lib/apis/DTO/ITwitch';
+  import CustomModal from '$lib/components/shared/Custom_modal/Custom_modal.svelte';
 
   let {
     channels = $bindable(),
@@ -13,13 +13,13 @@
   } = $props();
 
   let isModalOpen: boolean = $state(false);
-  let channelName: string = $state("");
-  let errorMessage: string = $state("");
+  let channelName: string = $state('');
+  let errorMessage: string = $state('');
 
   function handleConfirm() {
     if (channelName.trim()) {
       if (channels.some((channel) => channel.channel === channelName)) {
-        errorMessage = "Channel already added!";
+        errorMessage = 'Channel already added!';
         return;
       }
       let newId = channels.length + 1;
@@ -33,12 +33,12 @@
       };
       channels.push(newChannel);
       selectedChannelId = newId;
-      channelName = "";
-      errorMessage = "";
+      channelName = '';
+      errorMessage = '';
       isModalOpen = false;
       onAction?.(); // Close the context menu
     } else {
-      errorMessage = "Please enter a channel name";
+      errorMessage = 'Please enter a channel name';
     }
   }
 </script>
@@ -47,7 +47,7 @@
   class="relative p-1 w-full hover:bg-[#ff64676c] transition ease-in-out flex items-center border-b-white border focus:ring-0"
   onclick={() => {
     isModalOpen = true;
-    errorMessage = "";
+    errorMessage = '';
   }}
 >
   <svg
@@ -62,8 +62,8 @@
 </button>
 
 <CustomModal
-  title={"Add channel"}
-  text={"Join a Twitch channel by its channel name"}
+  title={'Add channel'}
+  text={'Join a Twitch channel by its channel name'}
   input
   bind:isModalOpen
   bind:inputValue={channelName}

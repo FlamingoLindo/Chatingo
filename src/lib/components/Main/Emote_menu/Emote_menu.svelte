@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
+  import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
 
   async function openNewWindow() {
-    let emoteWindow = await WebviewWindow.getByLabel("emote-window");
+    let emoteWindow = await WebviewWindow.getByLabel('emote-window');
 
     // Recreate window if it was closed
     if (!emoteWindow) {
-      emoteWindow = new WebviewWindow("emote-window", {
-        url: "/emote-tab",
-        title: "Chatingo - Emotes",
+      emoteWindow = new WebviewWindow('emote-window', {
+        url: '/emote-tab',
+        title: 'Chatingo - Emotes',
         width: 800,
         height: 600,
         decorations: false,

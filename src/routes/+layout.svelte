@@ -1,7 +1,7 @@
 <script lang="ts">
-  import "../app.css";
-  import { getCurrentWindow } from "@tauri-apps/api/window";
-  import type { Snippet } from "svelte";
+  import '../app.css';
+  import { getCurrentWindow } from '@tauri-apps/api/window';
+  import type { Snippet } from 'svelte';
 
   interface Props {
     children: Snippet;
@@ -29,12 +29,12 @@
 
   <div class="controls">
     <!-- Acc -->
-    <button onclick={() => console.log("configs")} title="Account">
+    <button onclick={() => console.log('configs')} title="Account">
       flamingo_lindo
     </button>
 
     <!-- Settings -->
-    <button onclick={() => console.log("configs")} title="Settings">
+    <button onclick={() => console.log('configs')} title="Settings">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"

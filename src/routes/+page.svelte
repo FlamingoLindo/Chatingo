@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { IChannel } from "$lib/apis/DTO/ITwitch";
-  import ChannelList from "$lib/components/Channel_list/Channel_list.svelte";
-  import ChatMessages from "$lib/components/Chat_messages/Chat_messages.svelte";
-  import TwitchVideo from "$lib/components/Twitch_video/Twitch_video.svelte";
+  import ChannelList from "$lib/components/Main/Channel_list/Channel_list.svelte";
+  import ChatMessages from "$lib/components/Main/Chat_messages/Chat_messages.svelte";
+  import TwitchVideo from "$lib/components/Main/Twitch_video/Twitch_video.svelte";
+
   import { mockMyChannels } from "../mock/mock.data";
   let isTwitchOpen = $state<boolean>(false);
 

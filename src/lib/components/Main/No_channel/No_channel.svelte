@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { IChannel } from "$lib/apis/DTO/ITwitch";
-  import CustomModal from "../shared/Custom_modal/Custom_modal.svelte";
+  import type { IChannel } from '$lib/apis/DTO/ITwitch';
+  import CustomModal from '$lib/components/shared/Custom_modal/Custom_modal.svelte';
 
   let isModalOpen: boolean = $state(false);
 
-  let channelName: string = $state("");
-  let errorMessage: string = $state("");
+  let channelName: string = $state('');
+  let errorMessage: string = $state('');
 
   let {
     channels,
@@ -28,19 +28,19 @@
       };
       channels.push(newChannel);
       selectedChannelId = newId;
-      channelName = "";
-      errorMessage = "";
+      channelName = '';
+      errorMessage = '';
       isModalOpen = false;
     } else {
-      errorMessage = "Please enter a channel name";
+      errorMessage = 'Please enter a channel name';
     }
   }
 </script>
 
 {#if isModalOpen}
   <CustomModal
-    title={"Add channel"}
-    text={"Join a Twitch channel by its channel name"}
+    title={'Add channel'}
+    text={'Join a Twitch channel by its channel name'}
     input
     bind:isModalOpen
     bind:inputValue={channelName}

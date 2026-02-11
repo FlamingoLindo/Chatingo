@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { MyChannels } from "$lib/apis/DTO/ITwitch";
-  import AddChannel from "../Add_channel/Add_channel.svelte";
-  import OpenChannel from "../Open_channel/Open_channel.svelte";
+  import type { MyChannels } from '$lib/apis/DTO/ITwitch';
+  import AddChannel from '../Add_channel/Add_channel.svelte';
+  import OpenChannel from '../Open_channel/Open_channel.svelte';
 
   let {
     channels = $bindable(),
@@ -16,8 +16,8 @@
   let contextOpen: boolean = $state(false);
   let menuElement: HTMLDivElement | null = $state(null);
   let buttonElement: HTMLButtonElement | null = $state(null);
-  let menuPosition = $state<"bottom" | "top">("bottom");
-  let menuAlignment = $state<"left" | "right">("left");
+  let menuPosition = $state<'bottom' | 'top'>('bottom');
+  let menuAlignment = $state<'left' | 'right'>('left');
 
   function closeMenu() {
     contextOpen = false;
@@ -35,17 +35,17 @@
     const spaceAbove = buttonRect.top;
 
     if (spaceBelow < menuRect.height && spaceAbove > spaceBelow) {
-      menuPosition = "top";
+      menuPosition = 'top';
     } else {
-      menuPosition = "bottom";
+      menuPosition = 'bottom';
     }
 
     const spaceRight = viewportWidth - buttonRect.left;
 
     if (spaceRight < menuRect.width) {
-      menuAlignment = "right";
+      menuAlignment = 'right';
     } else {
-      menuAlignment = "left";
+      menuAlignment = 'left';
     }
   }
 
@@ -70,10 +70,10 @@
       }
     }
 
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
 
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   });
 </script>
@@ -101,11 +101,11 @@
     <div
       bind:this={menuElement}
       class="absolute w-30 bg-[#111111] border border-gray-200 shadow-lg rounded z-1"
-      class:top-full={menuPosition === "bottom"}
-      class:bottom-full={menuPosition === "top"}
-      class:left-0={menuAlignment === "left"}
-      class:right-0={menuAlignment === "right"}
-      class:mb-1={menuPosition === "top"}
+      class:top-full={menuPosition === 'bottom'}
+      class:bottom-full={menuPosition === 'top'}
+      class:left-0={menuAlignment === 'left'}
+      class:right-0={menuAlignment === 'right'}
+      class:mb-1={menuPosition === 'top'}
     >
       <!-- Add new channel -->
       <AddChannel bind:channels bind:selectedChannelId onAction={closeMenu} />
