@@ -1,9 +1,7 @@
 <script lang="ts">
-  import type { IChannel } from "$lib/DTO/ITwitch";
-  import AddChannel from "../Add_channel/Add_channel.svelte";
+  import type { IChannel } from "$lib/apis/DTO/ITwitch";
   import NoChannel from "../No_channel/No_channel.svelte";
   import CustomModal from "../shared/Custom_modal/Custom_modal.svelte";
-  import OpenChannel from "../Open_channel/Open_channel.svelte";
   import ChannelOptions from "../Options/Channel_options.svelte";
 
   let {
@@ -148,7 +146,11 @@
           </div>
         </button>
       {/each}
-      <ChannelOptions bind:channels={channels.myChannels} bind:selectedChannelId bind:isTwitchOpen />
+      <ChannelOptions
+        bind:channels={channels.myChannels}
+        bind:selectedChannelId
+        bind:isTwitchOpen
+      />
     </ul>
   </div>
 {:else}

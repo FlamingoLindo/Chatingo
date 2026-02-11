@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { Format, type EmoteData } from "$lib/apis/DTO/emotes/global.dto";
   import type { PageData } from "./$types";
+  import { browser } from "$app/environment";
+
   let { data }: { data: PageData } = $props();
 
   let hoveredEmote: EmoteData | null = $state(null);
@@ -11,7 +14,9 @@
   const OFFSET = 15;
 
   function getEmoteUrl(emote: EmoteData, size: number): string {
-    const format = emote.format.includes("animated") ? "animated" : "static";
+    const format = emote.format.includes(Format.Animated)
+      ? "animated"
+      : "static";
     return `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/${format}/dark/${size}.0`;
   }
 
@@ -21,6 +26,8 @@
   }
 
   function getPreviewPosition() {
+    if (!browser) return { x: 0, y: 0 };
+
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
@@ -37,17 +44,14 @@
 
     return { x, y };
   }
-
-  $effect(() => {
-    if (hoveredEmote) {
-      getPreviewPosition();
-    }
-  });
 </script>
+
+<svelte:window onmousemove={handleMouseMove} />
 
 <main class="flex flex-col h-full bg-black text-white">
   <div class="flex-1 overflow-auto p-4">
     <p class="text-gray-400">Search...</p>
+
     {#await data.emotesPromise}
       <p>Loading...</p>
     {:then emotes}
@@ -56,11 +60,13 @@
           <div
             role="button"
             tabindex="0"
-            class="flex flex-col items-center p-2 cursor-pointer"
+            class="flex flex-col items-center p-2 cursor-pointer hover:bg-gray-800 rounded transition-colors"
             onmouseenter={() => (hoveredEmote = emote)}
             onmouseleave={() => (hoveredEmote = null)}
-            onmousemove={handleMouseMove}
-            onkeydown={(e) => e.key === "Enter" && (hoveredEmote = emote)}
+            onkeydown={(e) => {
+              if (e.key === "Enter") hoveredEmote = emote;
+              if (e.key === "Escape") hoveredEmote = null;
+            }}
           >
             <img
               src={getEmoteUrl(emote, 1)}
@@ -71,10 +77,10 @@
         {/each}
       </div>
 
-      {#if hoveredEmote}
+      {#if hoveredEmote && browser}
         {@const position = getPreviewPosition()}
         <div
-          class="fixed bg-[#ffffff13] rounded-sm p-4 pointer-events-none z-50"
+          class="fixed bg-[#ffffff13] rounded-sm p-4 pointer-events-none z-50 backdrop-blur-sm"
           style="left: {position.x}px; top: {position.y}px;"
         >
           <img
@@ -86,7 +92,7 @@
         </div>
       {/if}
     {:catch error}
-      <p class="text-red-500">Error: {error.message}</p>
+      <p class="text-red-500 flex justify-center text-2xl">{error.message}</p>
     {/await}
   </div>
 </main>

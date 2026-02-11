@@ -1,7 +1,6 @@
+import { TWITCH_API_ENDPOINT } from "$lib";
 import type { GlobalEmoteApiResponse } from "./DTO/emotes/global.dto";
-
-// https://dev.twitch.tv/docs/api/reference
-const GLOBAL_EMOTES = 'https://api.twitch.tv/helix';
+import { TwitchApiException, type TwitchApiError } from "./DTO/twitch.api.error";
 
 class GlobalEmotesApi {
     private apiUrl: string;
@@ -27,11 +26,30 @@ class GlobalEmotesApi {
 
         try {
             const response = await fetch(url, config);
-            const data = await response.json();
 
+            if (!response.ok) {
+                let errorData: TwitchApiError;
+
+                try {
+                    errorData = await response.json();
+                } catch {
+                    errorData = {
+                        error: 'API Error',
+                        status: response.status,
+                        message: `HTTP error! status: ${response.status}`
+                    };
+                }
+
+                throw new TwitchApiException(
+                    errorData.error,
+                    errorData.status,
+                    errorData.message
+                );
+            }
+
+            const data = await response.json();
             return data;
         } catch (error) {
-            console.error('Request error:', error);
             throw error;
         }
     }
@@ -41,4 +59,4 @@ class GlobalEmotesApi {
     }
 }
 
-export const globalEmotesApi = new GlobalEmotesApi(GLOBAL_EMOTES);
+export const globalEmotesApi = new GlobalEmotesApi(TWITCH_API_ENDPOINT);
