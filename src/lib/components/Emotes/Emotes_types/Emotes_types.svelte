@@ -16,7 +16,7 @@
   let activeTab: Tab = $state(tabs[0]);
 </script>
 
-<div class="grid grid-cols-4 justify-center mb-5 mt-3">
+<div class="grid grid-cols-4 mb-5 mt-3 gap-2">
   {#each tabs as tab}
     <button
       class={`p-1.5 text-sm border border-[#ffc9c9] hover:bg-[#763436] ${

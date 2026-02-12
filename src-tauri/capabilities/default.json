@@ -13,7 +13,6 @@
     "core:window:allow-minimize",
     "core:window:allow-toggle-maximize",
     "core:window:allow-internal-toggle-maximize",
-
     "core:window:allow-create",
     "core:window:allow-center",
     "core:window:allow-set-title",
@@ -21,6 +20,7 @@
     "core:window:allow-hide",
     "core:window:allow-set-focus",
     "core:webview:allow-create-webview-window",
-    "core:webview:allow-create-webview"
+    "core:webview:allow-create-webview",
+    "log:default"
   ]
 }

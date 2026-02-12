@@ -22,7 +22,9 @@ export const globalEmoteService = {
                         error(err.status, `Failed to fetch global emotes: ${err.message}`);
                 }
             }
-            error(500, 'Failed to fetch global emotes: Unknown error');
+            console.error('Emote fetch error:', err);
+            const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+            error(500, `Failed to fetch global emotes: ${errorMessage}`);
         }
     }
 };

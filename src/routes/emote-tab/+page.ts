@@ -1,7 +1,7 @@
 import { globalEmoteService } from '$lib/apis/services/global.emotes.service';
-import type { PageServerLoad } from './$types';
+import type { PageLoad } from './$types';
 
-export const load: PageServerLoad = async ({ }) => {
+export const load: PageLoad = async ({ }) => {
 	const emotesPromise = globalEmoteService.getGlobalEmotes();
 
 	return {
