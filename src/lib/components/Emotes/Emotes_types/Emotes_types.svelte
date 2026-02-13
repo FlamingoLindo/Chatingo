@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { PageData } from '../../../../routes/emote-tab/$types';
   import GlobalEmotes from '../Global_emotes/Global_emotes.svelte';
+  import SubEmotes from '../Sub_emotes/Sub_emotes.svelte';
   import { page } from '$app/state';
 
   const data = $derived(page.data as PageData);
@@ -30,5 +31,7 @@
 </div>
 
 {#if activeTab.label === 'Global'}
-  <GlobalEmotes {data} />
+  <GlobalEmotes data={{ emotesPromise: data.globalEmotesPromise }} />
+{:else if activeTab.label === 'Subs'}
+  <SubEmotes data={{ emotesPromise: data.subbedEmotesPromise }} />
 {/if}

@@ -1,12 +1,13 @@
-import type { GlobalEmoteApiResponse } from "./DTO/emotes/global.dto";
-import { TwitchApiException, type TwitchApiError } from "./DTO/twitch.api.error";
+import { TwitchApiException, type TwitchApiError } from "../DTO/twitch.api.error";
 import { TWITCH_API_ENDPOINT } from '$lib';
 
 import { invoke } from '@tauri-apps/api/core';
+import type { EmoteApiResponse } from "../DTO/emotes/emotes.dto";
 
 export interface TokenData {
     client_id: string;
     token: string;
+    user_id: string;
 }
 
 let credentialsCache: TokenData | null = null;
@@ -18,7 +19,7 @@ async function getCredentials(): Promise<TokenData> {
     return credentialsCache;
 }
 
-class GlobalEmotesApi {
+class EmotesApi {
     private apiUrl: string;
     constructor(apiUrl: string) {
         this.apiUrl = apiUrl;
@@ -27,15 +28,26 @@ class GlobalEmotesApi {
     private async request<T>(
         endpoint: string,
         options: RequestInit = {},
-    ): Promise<GlobalEmoteApiResponse> {
+        queryParams?: Record<string, string | number>
+    ): Promise<EmoteApiResponse> {
 
         const credentials = await getCredentials();
         let url = `${this.apiUrl}${endpoint}`;
+
+        if (queryParams) {
+            const params = new URLSearchParams();
+            Object.entries(queryParams).forEach(([key, value]) => {
+                params.append(key, String(value));
+            });
+            url += `?${params.toString()}`;
+        }
+
         const config: RequestInit = {
             ...options,
             headers: {
                 'Client-ID': credentials.client_id,
                 'Authorization': `Bearer ${credentials.token}`,
+                'Content-Type': 'application/json',
                 ...options.headers
             }
         };
@@ -66,9 +78,14 @@ class GlobalEmotesApi {
         }
     }
 
-    async get<T>(endpoint: string): Promise<GlobalEmoteApiResponse> {
+    async getGlobalEmotes<T>(endpoint: string): Promise<EmoteApiResponse> {
         return this.request<T>(endpoint, { method: 'GET' });
+    }
+
+
+    async getSubbedEmotes<T>(endpoint: string, queryParams?: Record<string, string | number>): Promise<EmoteApiResponse> {
+        return this.request<T>(endpoint, { method: 'GET' }, queryParams)
     }
 }
 
-export const globalEmotesApi = new GlobalEmotesApi(TWITCH_API_ENDPOINT);
+export const emotesApi = new EmotesApi(TWITCH_API_ENDPOINT);
