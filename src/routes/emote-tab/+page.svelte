@@ -12,7 +12,7 @@
 
 <svelte:window onmousemove={handleMouseMove} />
 
-<main class="flex flex-col h-full bg-black text-white">
+<main class="h-full bg-black text-white">
   <div class="flex-1 overflow-auto p-4">
     <p class="text-gray-400">Search...</p>
     <EmotesTypes />

@@ -10,17 +10,16 @@
     { id: 1, label: 'Global' },
     { id: 2, label: 'Channel' },
     { id: 3, label: 'Subs' },
-    { id: 4, label: 'Emojis' },
   ] as const;
 
   type Tab = (typeof tabs)[number];
   let activeTab: Tab = $state(tabs[0]);
 </script>
 
-<div class="grid grid-cols-4 mb-5 mt-3 gap-2">
+<div class="flex justify-center mb-5 mt-3 gap-2">
   {#each tabs as tab}
     <button
-      class={`p-1.5 text-sm border border-[#ffc9c9] hover:bg-[#763436] ${
+      class={`w-1/2 p-1.5 text-sm border border-[#ffc9c9] hover:bg-[#763436] ${
         activeTab.id === tab.id ? 'bg-[#763436]' : 'bg-[#111111] cursor-pointer'
       }`}
       onclick={() => (activeTab = tab)}
