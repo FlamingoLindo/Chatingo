@@ -22,7 +22,7 @@ export const mockMyChannels = [
             {
                 time: "14:24",
                 sender: {
-                    username: "flamingo_lindo",
+                    username: "forsen",
                     color: "#107b9e",
                     badges: [
                         "https://static-cdn.jtvnw.net/badges/v1/f9e3b4e4-200e-4045-bd71-3a6b480c23ae/{SIZE}",
