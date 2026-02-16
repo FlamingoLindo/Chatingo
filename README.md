@@ -1,12 +1,10 @@
 ## Currently in Development
-
 **Branch:** front-end  
-**Commit:** feat: add GitHub Actions workflow to update README with latest front-end branch commit info  
-**Description:**   
-**Commit ID:** `bc87189`  
-
-[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/bc87189e6d52427c835962f40c2e393713e65d2a)
-
+**Commit:** feat: update README workflow to include commit description with heredoc support  
+**Description:** - fix description
+  
+**Commit ID:** `e094bec`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/e094bec2c5c2f9d11db3d092ccc2fc5ddb26d34b)
 ---
 
 # Tauri + SvelteKit + TypeScript
