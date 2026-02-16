@@ -1,0 +1,73 @@
+name: Add information from latest push in a branch into main readme
+
+on:
+  push:
+    branches:
+      - front-end
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{secrets.GITHUB_TOKEN}}
+      - name: Get latest commit
+        id: commit_info
+        run: |
+          git fetch origin "front-end"
+
+          BRANCH="front-end"
+          MESSAGE=$(git log origin/"front-end" -1 --pretty=%s)
+          DESCRIPTION=$(git log origin/"front-end" -1 --pretty=%b)
+          ID=$(git log origin/"front-end" -1 --pretty=%H)
+          SHORT_ID=$(git log origin/"front-end" -1 --pretty=%h)
+          URL="${{github.server_url}}/${{github.repository}}"
+
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          echo "message=$MESSAGE" >> $GITHUB_OUTPUT
+          echo "description=$DESCRIPTION" >> $GITHUB_OUTPUT
+          echo "id=$ID" >> $GITHUB_OUTPUT
+          echo "short_id=$SHORT_ID" >> $GITHUB_OUTPUT
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Update README
+        run: |
+          # Create or update the development section in README
+          cat > dev-info.md << 'EOF'
+          ## Currently in Development
+
+          **Branch:** ${{ steps.commit_info.outputs.branch }}  
+          **Commit:** ${{ steps.commit_info.outputs.message }}  
+          **Description:** ${{ steps.commit_info.outputs.description }}  
+          **Commit ID:** `${{ steps.commit_info.outputs.short_id }}`  
+
+          [View Branch](${{ steps.commit_info.outputs.url }}/tree/front-end) | [View Commit](${{ steps.commit_info.outputs.url }}/commit/${{ steps.commit_info.outputs.id }})
+
+          ---
+
+          EOF
+
+          # If README.md exists, prepend the dev info
+          if [ -f README.md ]; then
+            # Remove old dev info if it exists
+            sed -i '/## Currently in Development/,/^---$/d' README.md
+            # Prepend new dev info
+            cat dev-info.md README.md > temp.md
+            mv temp.md README.md
+          else
+            # Create new README with dev info
+            mv dev-info.md README.md
+          fi
+
+          rm -f dev-info.md
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update README with latest front-end branch commit info" && git push)
