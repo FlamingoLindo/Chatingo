@@ -3,6 +3,7 @@ import { TWITCH_API_ENDPOINT } from '$lib';
 
 import { invoke } from '@tauri-apps/api/core';
 import type { EmoteApiResponse } from "../DTO/emotes/emotes.dto";
+import type { The7TvAPIResponse } from "../DTO/emotes/7tv.dto";
 
 export interface TokenData {
     client_id: string;
@@ -29,7 +30,7 @@ class EmotesApi {
         endpoint: string,
         options: RequestInit = {},
         queryParams?: Record<string, string | number>
-    ): Promise<EmoteApiResponse> {
+    ): Promise<T> {
 
         const credentials = await getCredentials();
         let url = `${this.apiUrl}${endpoint}`;
@@ -78,13 +79,16 @@ class EmotesApi {
         }
     }
 
-    async getGlobalEmotes<T>(endpoint: string): Promise<EmoteApiResponse> {
-        return this.request<T>(endpoint, { method: 'GET' });
+    async getGlobalEmotes(endpoint: string): Promise<EmoteApiResponse> {
+        return this.request<EmoteApiResponse>(endpoint, { method: 'GET' });
     }
 
+    async getSubbedEmotes(endpoint: string, queryParams?: Record<string, string | number>): Promise<EmoteApiResponse> {
+        return this.request<EmoteApiResponse>(endpoint, { method: 'GET' }, queryParams);
+    }
 
-    async getSubbedEmotes<T>(endpoint: string, queryParams?: Record<string, string | number>): Promise<EmoteApiResponse> {
-        return this.request<T>(endpoint, { method: 'GET' }, queryParams)
+    async get7tvEmotes(endpoint: string, queryParams?: Record<string, string | number>): Promise<The7TvAPIResponse> {
+        return this.request<The7TvAPIResponse>(endpoint, { method: 'POST' });
     }
 }
 

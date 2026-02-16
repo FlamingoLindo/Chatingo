@@ -3,6 +3,7 @@
   import GlobalEmotes from '../Global_emotes/Global_emotes.svelte';
   import SubEmotes from '../Sub_emotes/Sub_emotes.svelte';
   import { page } from '$app/state';
+  import The7tvEmotes from '../The7tvEmotes/The7tvEmotes.svelte';
 
   const data = $derived(page.data as PageData);
 
@@ -28,9 +29,10 @@
     </button>
   {/each}
 </div>
-
 {#if activeTab.label === 'Global'}
   <GlobalEmotes data={{ emotesPromise: data.globalEmotesPromise }} />
 {:else if activeTab.label === 'Subs'}
   <SubEmotes data={{ emotesPromise: data.subbedEmotesPromise }} />
+{:else if activeTab.label === 'Channel'}
+  <The7tvEmotes data={{ emotesPromise: data.the7tvEmotesPromise }} />
 {/if}
