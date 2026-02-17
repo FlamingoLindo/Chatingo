@@ -1,9 +1,9 @@
 ## Currently in Development
 **Branch:** version_mismatch  
-**Commit:** fix: update README workflow to dynamically reference the current branch and commit description  
+**Commit:** Merge branch 'main' into version_mismatch  
 **Description:**   
-**Commit ID:** `5cf245f`  
-[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/version_mismatch) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/5cf245fda5d7fa72c138eb77fd41d1aa573256ce)
+**Commit ID:** `c792607`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/version_mismatch) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/c792607bfc9c637bb22f2c54ee9266b9555010b8)
 ---
 
 # Tauri + SvelteKit + TypeScript
