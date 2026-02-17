@@ -1,9 +1,9 @@
 ## Currently in Development
-**Branch:** front-end  
-**Commit:** fix: update README workflow to trigger on all branches and improve commit fetching logic  
+**Branch:** version_mismatch  
+**Commit:** fix: update README workflow to dynamically reference the current branch and commit description  
 **Description:**   
-**Commit ID:** `b19235f`  
-[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/b19235fbcaf54b7a2040159ec8c3cf1ca9dd99de)
+**Commit ID:** `5cf245f`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/version_mismatch) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/5cf245fda5d7fa72c138eb77fd41d1aa573256ce)
 ---
 
 # Tauri + SvelteKit + TypeScript
