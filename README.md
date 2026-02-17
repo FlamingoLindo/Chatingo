@@ -1,9 +1,9 @@
 ## Currently in Development
 **Branch:** front-end  
-**Commit:** feat: enhance user card functionality and update dependencies  
+**Commit:** fix: update README workflow to trigger on all branches and improve commit fetching logic  
 **Description:**   
-**Commit ID:** `5608cb6`  
-[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/5608cb659b5a36bf3f2544881bed9a384e6a8dfd)
+**Commit ID:** `b19235f`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/b19235fbcaf54b7a2040159ec8c3cf1ca9dd99de)
 ---
 
 # Tauri + SvelteKit + TypeScript
