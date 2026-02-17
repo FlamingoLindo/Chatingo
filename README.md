@@ -1,9 +1,9 @@
 ## Currently in Development
-**Branch:** version_mismatch  
-**Commit:** Merge branch 'main' into version_mismatch  
-**Description:**   
-**Commit ID:** `c792607`  
-[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/version_mismatch) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/c792607bfc9c637bb22f2c54ee9266b9555010b8)
+**Branch:** main  
+**Commit:** Merge pull request #1 from FlamingoLindo/version_mismatch  
+**Description:** Version mismatch  
+**Commit ID:** `737573a`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/main) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/737573a84efd290a5a8168327e0e0bbc4ac4d8d1)
 ---
 
 # Tauri + SvelteKit + TypeScript
