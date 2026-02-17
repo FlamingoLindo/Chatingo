@@ -1,4 +1,12 @@
-# Current state
+## Currently in Development
+**Branch:** version_mismatch  
+**Commit:** fix: update README workflow to dynamically reference the current branch and commit description  
+**Description:**   
+**Commit ID:** `5cf245f`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/version_mismatch) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/5cf245fda5d7fa72c138eb77fd41d1aa573256ce)
+---
+
+# Tauri + SvelteKit + TypeScript
 
 **Disclaimer.:** Color schema will change I'm just leaving black, white, and red because its easier for me to see any changes this way
 
