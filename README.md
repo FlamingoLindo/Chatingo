@@ -1,9 +1,9 @@
 ## Currently in Development
 **Branch:** front-end  
-**Commit:** fix: remove unnecessary image links from README and update asset link  
+**Commit:** docs: expand README with detailed project overview, features, API integration, and code examples  
 **Description:**   
-**Commit ID:** `725e922`  
-[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/725e922565556988efea7cc95d91cf4127b4dc0a)
+**Commit ID:** `1474611`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/1474611373aab3b6b8e0daf51e939b4076a86f82)
 ---
 
 # Tauri + SvelteKit + TypeScript
