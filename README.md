@@ -1,9 +1,9 @@
 ## Currently in Development
-**Branch:** front-end  
-**Commit:** docs: expand README with detailed project overview, features, API integration, and code examples  
-**Description:**   
-**Commit ID:** `1474611`  
-[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/1474611373aab3b6b8e0daf51e939b4076a86f82)
+**Branch:** main  
+**Commit:** Merge pull request #2 from FlamingoLindo/front-end  
+**Description:** Front end  
+**Commit ID:** `7b2b5b7`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/main) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/7b2b5b767225ff3e4437c09b115ecf031b67d7ce)
 ---
 
 # Tauri + SvelteKit + TypeScript
