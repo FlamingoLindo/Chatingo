@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Format, type EmoteData } from '$lib/apis/DTO/emotes/emotes.dto';
   import { browser } from '$app/environment';
+  import { emit } from '@tauri-apps/api/event';
 
   let { data }: { data: { emotesPromise: Promise<EmoteData[]> } } = $props();
 
@@ -45,6 +46,14 @@
 
     return { x, y };
   }
+
+  async function send_emote(emote: EmoteData) {
+    await emit('emote', {
+      id: emote.id,
+      name: emote.name,
+      url: getEmoteUrl(emote, 3),
+    });
+  }
 </script>
 
 {#if isOpen}
@@ -68,6 +77,7 @@
             if (e.key === 'Enter') hoveredEmote = emote;
             if (e.key === 'Escape') hoveredEmote = null;
           }}
+          onclick={() => send_emote(emote)}
         >
           <img
             src={getEmoteUrl(emote, 1)}

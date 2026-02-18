@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { onDestroy, onMount } from 'svelte';
   import EmoteMenu from '../Emote_menu/Emote_menu.svelte';
+  import { listen } from '@tauri-apps/api/event';
 
   interface Props {
     onSubmit?: (message: string) => void;
@@ -7,6 +9,7 @@
 
   let { onSubmit }: Props = $props();
   let message: string = $state('');
+  let textareaElement: HTMLTextAreaElement | null = $state(null);
 
   function autoResize(textarea: HTMLTextAreaElement) {
     textarea.style.height = 'auto';
@@ -32,12 +35,51 @@
       form?.requestSubmit();
     }
   }
+
+  function insertEmoteAtCursor(emoteName: string) {
+    if (!textareaElement) return;
+
+    const start = textareaElement.selectionStart;
+    const end = textareaElement.selectionEnd;
+
+    const emoteText = ` ${emoteName} `;
+    message = message.slice(0, start) + emoteText + message.slice(end);
+
+    const newCursorPos = start + emoteText.length;
+
+    setTimeout(() => {
+      if (textareaElement) {
+        textareaElement.focus();
+        textareaElement.setSelectionRange(newCursorPos, newCursorPos);
+        autoResize(textareaElement);
+      }
+    }, 0);
+  }
+
+  let unlisten: (() => void) | null = null;
+
+  onMount(async () => {
+    unlisten = await listen('emote', (event) => {
+      const emoteData = event.payload as { name: string };
+
+      if (emoteData && emoteData.name) {
+        insertEmoteAtCursor(emoteData.name);
+      }
+    });
+  });
+
+  onDestroy(() => {
+    if (unlisten) {
+      unlisten();
+    }
+  });
 </script>
 
 <div>
   <form onsubmit={handleSubmit}>
     <div class="relative">
       <textarea
+        bind:this={textareaElement}
         bind:value={message}
         oninput={(e) => autoResize(e.currentTarget)}
         onkeydown={handleKeyDown}

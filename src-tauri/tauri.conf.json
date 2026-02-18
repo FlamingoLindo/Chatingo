@@ -28,6 +28,16 @@
         "decorations": false,
         "zoomHotkeysEnabled": true,
         "visible": false
+      },
+      {
+        "label": "settings-window",
+        "url": "/settings-window",
+        "title": "Chatingo - Settings",
+        "width": 800,
+        "height": 600,
+        "decorations": false,
+        "zoomHotkeysEnabled": true,
+        "visible": false
       }
     ],
     "security": {

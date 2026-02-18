@@ -62,6 +62,30 @@
     }
   }
 
+  function extractUrls(message: string): { text: string; isUrl: boolean }[] {
+    const urlRegex = /https?:\/\/[^\s]+/g;
+    const parts: { text: string; isUrl: boolean }[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = urlRegex.exec(message)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push({
+          text: message.slice(lastIndex, match.index),
+          isUrl: false,
+        });
+      }
+      parts.push({ text: match[0], isUrl: true });
+      lastIndex = match.index + match[0].length;
+    }
+
+    if (lastIndex < message.length) {
+      parts.push({ text: message.slice(lastIndex), isUrl: false });
+    }
+
+    return parts;
+  }
+
   $effect(() => {
     if (messagesContainer && currentMessages.length > 0 && isAtBottom) {
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -91,7 +115,20 @@
           {msg.sender.username}:
         </button>
         <span class="wrap-break-words break-all">
-          {msg.content}
+          {#each extractUrls(msg.content) as part}
+            {#if part.isUrl}
+              <a
+                href={part.text}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-400 underline"
+              >
+                {part.text}
+              </a>
+            {:else}
+              {part.text}
+            {/if}
+          {/each}
         </span>
       </div>
     {/each}
