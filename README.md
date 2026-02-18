@@ -1,9 +1,9 @@
 ## Currently in Development
-**Branch:** main  
-**Commit:** Merge pull request #1 from FlamingoLindo/version_mismatch  
-**Description:** Version mismatch  
-**Commit ID:** `737573a`  
-[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/main) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/737573a84efd290a5a8168327e0e0bbc4ac4d8d1)
+**Branch:** front-end  
+**Commit:** fix: remove unnecessary image links from README and update asset link  
+**Description:**   
+**Commit ID:** `725e922`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/725e922565556988efea7cc95d91cf4127b4dc0a)
 ---
 
 # Tauri + SvelteKit + TypeScript
