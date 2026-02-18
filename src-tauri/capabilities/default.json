@@ -4,7 +4,8 @@
   "description": "Capability for the main window",
   "windows": [
     "main",
-    "emote-window"
+    "emote-window",
+    "settings-window"
   ],
   "permissions": [
     "core:window:default",
