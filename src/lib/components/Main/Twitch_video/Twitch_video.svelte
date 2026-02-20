@@ -1,8 +1,8 @@
+<!-- TODO pass in the logged in user -->
 <script lang="ts">
-  let {
-    isTwitchOpen,
-    channelName,
-  }: { isTwitchOpen: boolean; channelName: string } = $props();
+  import type { TwitchVideoProps } from './props';
+
+  let { isTwitchOpen, channelName }: TwitchVideoProps = $props();
 </script>
 
 {#if isTwitchOpen}
