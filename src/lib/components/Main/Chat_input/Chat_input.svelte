@@ -2,59 +2,13 @@
   import { onDestroy, onMount } from 'svelte';
   import EmoteMenu from '../Emote_menu/Emote_menu.svelte';
   import { listen } from '@tauri-apps/api/event';
+  import type { ChatInputProps } from './props';
+  import { autoResize, handleKeyDown, handleSubmit, insertEmoteAtCursor } from './logic.svelte';
 
-  interface Props {
-    onSubmit?: (message: string) => void;
-  }
+  let { onSubmit }: ChatInputProps = $props();
 
-  let { onSubmit }: Props = $props();
   let message: string = $state('');
   let textareaElement: HTMLTextAreaElement | null = $state(null);
-
-  function autoResize(textarea: HTMLTextAreaElement) {
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-  }
-
-  function handleSubmit(e: Event) {
-    e.preventDefault();
-    if (message.trim() && message.length <= 500) {
-      onSubmit?.(message);
-      message = '';
-      const textarea = (e.target as HTMLFormElement).querySelector('textarea');
-      if (textarea) {
-        textarea.style.height = 'auto';
-      }
-    }
-  }
-
-  function handleKeyDown(e: KeyboardEvent) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      const form = (e.target as HTMLTextAreaElement).closest('form');
-      form?.requestSubmit();
-    }
-  }
-
-  function insertEmoteAtCursor(emoteName: string) {
-    if (!textareaElement) return;
-
-    const start = textareaElement.selectionStart;
-    const end = textareaElement.selectionEnd;
-
-    const emoteText = ` ${emoteName} `;
-    message = message.slice(0, start) + emoteText + message.slice(end);
-
-    const newCursorPos = start + emoteText.length;
-
-    setTimeout(() => {
-      if (textareaElement) {
-        textareaElement.focus();
-        textareaElement.setSelectionRange(newCursorPos, newCursorPos);
-        autoResize(textareaElement);
-      }
-    }, 0);
-  }
 
   let unlisten: (() => void) | null = null;
 
@@ -63,7 +17,7 @@
       const emoteData = event.payload as { name: string };
 
       if (emoteData && emoteData.name) {
-        insertEmoteAtCursor(emoteData.name);
+        message = insertEmoteAtCursor(emoteData.name, textareaElement, message);
       }
     });
   });
@@ -76,7 +30,9 @@
 </script>
 
 <div>
-  <form onsubmit={handleSubmit}>
+  <form onsubmit={(e) => {
+    message = handleSubmit(e, message, onSubmit);
+  }}>
     <div class="relative">
       <textarea
         bind:this={textareaElement}
