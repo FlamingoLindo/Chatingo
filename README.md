@@ -1,9 +1,9 @@
 ## Currently in Development
-**Branch:** main  
-**Commit:** Merge pull request #2 from FlamingoLindo/front-end  
-**Description:** Front end  
-**Commit ID:** `7b2b5b7`  
-[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/main) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/7b2b5b767225ff3e4437c09b115ecf031b67d7ce)
+**Branch:** front-end  
+**Commit:** feat: enhance layout with app version display and improve chat message styling  
+**Description:**   
+**Commit ID:** `390e9a6`  
+[View Branch](https://github.com/FlamingoLindo/Chatingo/tree/front-end) | [View Commit](https://github.com/FlamingoLindo/Chatingo/commit/390e9a64ab0b424ef7023a8bc1627958914ba941)
 ---
 
 # Tauri + SvelteKit + TypeScript
