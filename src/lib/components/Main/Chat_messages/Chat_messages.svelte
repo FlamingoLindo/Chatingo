@@ -2,11 +2,17 @@
   import type { IChannel, IMessage } from '$lib/apis/DTO/ITwitch';
   import ChatInput from '../Chat_input/Chat_input.svelte';
   import UserCard from '../User_card/User_card.svelte';
+  import {
+    checkIfAtBottom,
+    extractUrls,
+    formatBadgeUrl,
+    handleMessageSubmit,
+    toggleUserCard,
+    type ChatMessagesProps,
+  } from './logic.svelte';
 
-  let { selectedChannelId, channels = $bindable() } = $props<{
-    selectedChannelId: number;
-    channels: IChannel[];
-  }>();
+  let { selectedChannelId, channels = $bindable() }: ChatMessagesProps =
+    $props();
 
   let openUserCard: string | null = $state(null);
   let cardPosition = $state({ x: 0, y: 0 });
@@ -17,74 +23,6 @@
   let messagesContainer: HTMLDivElement;
   let chatInputElement: HTMLDivElement;
   let isAtBottom = $state(true);
-
-  function checkIfAtBottom() {
-    if (messagesContainer) {
-      const threshold = 100;
-      const scrollBottom =
-        messagesContainer.scrollHeight -
-        messagesContainer.scrollTop -
-        messagesContainer.clientHeight;
-      isAtBottom = scrollBottom < threshold;
-    }
-  }
-
-  function handleMessageSubmit(message: string) {
-    const newMessage: IMessage = {
-      time: new Date().toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      }),
-      sender: { username: 'flamingo_lindo', color: '#fcba03', badges: [] },
-      content: message,
-    };
-    const channel = channels.find((c: IChannel) => c.id === selectedChannelId);
-    if (channel) {
-      channel.messages.push(newMessage);
-      channels = [...channels];
-    }
-  }
-
-  function formatBadgeUrl(badgeUrl: string) {
-    const formattedUrl = badgeUrl.replace('{SIZE}', '1');
-    return formattedUrl;
-  }
-
-  function toggleUserCard(username: string, event: MouseEvent) {
-    event.stopPropagation();
-    if (openUserCard === username) {
-      openUserCard = null;
-    } else {
-      const rect = (event.target as HTMLElement).getBoundingClientRect();
-      cardPosition = { x: rect.left, y: rect.top };
-      openUserCard = username;
-    }
-  }
-
-  function extractUrls(message: string): { text: string; isUrl: boolean }[] {
-    const urlRegex = /https?:\/\/[^\s]+/g;
-    const parts: { text: string; isUrl: boolean }[] = [];
-    let lastIndex = 0;
-    let match;
-
-    while ((match = urlRegex.exec(message)) !== null) {
-      if (match.index > lastIndex) {
-        parts.push({
-          text: message.slice(lastIndex, match.index),
-          isUrl: false,
-        });
-      }
-      parts.push({ text: match[0], isUrl: true });
-      lastIndex = match.index + match[0].length;
-    }
-
-    if (lastIndex < message.length) {
-      parts.push({ text: message.slice(lastIndex), isUrl: false });
-    }
-
-    return parts;
-  }
 
   $effect(() => {
     if (messagesContainer && currentMessages.length > 0 && isAtBottom) {
@@ -97,7 +35,9 @@
   <div
     class="flex-1 overflow-y-auto mt-2 text-white"
     bind:this={messagesContainer}
-    onscroll={checkIfAtBottom}
+    onscroll={() => {
+      isAtBottom = checkIfAtBottom(messagesContainer);
+    }}
   >
     {#each currentMessages as msg, i}
       <div
@@ -112,7 +52,16 @@
           {/each}
         </span>
         <button
-          onclick={(e) => toggleUserCard(msg.sender.username, e)}
+          onclick={(e) => {
+            const result = toggleUserCard(
+              msg.sender.username,
+              e,
+              openUserCard,
+              cardPosition
+            );
+            openUserCard = result.openUserCard;
+            cardPosition = result.cardPosition;
+          }}
           class="shrink-0 cursor-pointer"
           style="color: {msg.sender.color};"
         >
@@ -139,12 +88,7 @@
   </div>
 
   {#if openUserCard}
-    <UserCard
-      bind:isOpen={openUserCard}
-      channel={openUserCard}
-      x={cardPosition.x}
-      y={cardPosition.y}
-    />
+    <UserCard bind:isOpen={openUserCard} channel={openUserCard} />
   {/if}
 
   <div class="relative" bind:this={chatInputElement}>
@@ -158,6 +102,10 @@
         }}>See current messages</button
       >
     {/if}
-    <ChatInput onSubmit={handleMessageSubmit} />
+    <ChatInput
+      onSubmit={(message) => {
+        channels = handleMessageSubmit(message, channels, selectedChannelId);
+      }}
+    />
   </div>
 </div>
