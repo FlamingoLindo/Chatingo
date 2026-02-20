@@ -25,6 +25,7 @@
     "log:allow-log",
     "opener:default",
     "core:event:allow-emit",
-    "core:event:default"
+    "core:event:default",
+    "core:app:allow-version"
   ]
 }

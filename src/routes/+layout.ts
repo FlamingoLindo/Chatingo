@@ -3,3 +3,12 @@
 // See: https://v2.tauri.app/start/frontend/sveltekit/ for more info
 export const prerender = true;
 export const ssr = false;
+
+import { getVersion } from '@tauri-apps/api/app';
+import type { LayoutLoad } from './$types';
+
+export const load: LayoutLoad = async () => {
+    return {
+        appVersion: await getVersion()
+    }
+}

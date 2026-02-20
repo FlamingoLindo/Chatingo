@@ -4,11 +4,8 @@
   import { getCurrentWindow } from '@tauri-apps/api/window';
   import type { Snippet } from 'svelte';
 
-  interface Props {
-    children: Snippet;
-  }
-
-  let { children }: Props = $props();
+  let { children, data }: { children: Snippet; data: { appVersion: string } } =
+    $props();
 
   let appWindow = $state(getCurrentWindow());
 
@@ -45,7 +42,7 @@
 </script>
 
 <div class="titlebar">
-  <div data-tauri-drag-region class="app-name">Chatingo</div>
+  <div data-tauri-drag-region class="app-name">Chatingo {data.appVersion}</div>
 
   <div class="controls">
     <!-- Acc -->

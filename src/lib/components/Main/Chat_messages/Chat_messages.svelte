@@ -99,8 +99,12 @@
     bind:this={messagesContainer}
     onscroll={checkIfAtBottom}
   >
-    {#each currentMessages as msg}
-      <div class="mb-1 wrap-break-word">
+    {#each currentMessages as msg, i}
+      <div
+        class="p-1 wrap-break-word border-b border-[#7a7a7a] {i % 2 === 0
+          ? 'bg-[#1a1a1a]'
+          : ''}"
+      >
         <span class="">{msg.time}</span>
         <span class="inline-flex items-center gap-0.5">
           {#each msg.sender.badges as badge}
