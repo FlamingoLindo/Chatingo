@@ -1,11 +1,7 @@
 <script lang="ts">
-  let {
-    isTwitchOpen = $bindable(),
-    onAction,
-  }: {
-    isTwitchOpen: boolean;
-    onAction?: () => void;
-  } = $props();
+  import type { OpenChannelProps } from './props';
+
+  let { isTwitchOpen = $bindable(), onAction }: OpenChannelProps = $props();
 </script>
 
 <button
