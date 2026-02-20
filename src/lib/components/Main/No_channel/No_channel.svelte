@@ -1,57 +1,33 @@
 <script lang="ts">
-  import type { IChannel } from '$lib/apis/DTO/ITwitch';
+  import type { NoChannelProps } from './props';
+  import { createNoChannelLogic } from './logic.svelte';
   import CustomModal from '$lib/components/shared/Custom_modal/Custom_modal.svelte';
 
-  let isModalOpen: boolean = $state(false);
-
-  let channelName: string = $state('');
-  let errorMessage: string = $state('');
-
   let {
-    channels,
+    channels = $bindable(),
     selectedChannelId = $bindable(),
-  }: {
-    channels: IChannel[];
-    selectedChannelId: number;
-  } = $props();
+  }: NoChannelProps & { selectedChannelId: number } = $props();
 
-  function handleConfirm() {
-    if (channelName.trim()) {
-      let newId = channels.length + 1;
-      let newChannel = {
-        id: newId,
-        channel: channelName,
-        isLive: false,
-        newMessages: false,
-        isSelected: true,
-        messages: [],
-      };
-      channels.push(newChannel);
-      selectedChannelId = newId;
-      channelName = '';
-      errorMessage = '';
-      isModalOpen = false;
-    } else {
-      errorMessage = 'Please enter a channel name';
-    }
-  }
+  const logic = createNoChannelLogic(() => channels, (id) => {
+    selectedChannelId = id;
+  });
 </script>
 
-{#if isModalOpen}
+{#if logic.isModalOpen}
   <CustomModal
     title={'Add channel'}
     text={'Join a Twitch channel by its channel name'}
     input
-    bind:isModalOpen
-    bind:inputValue={channelName}
-    bind:errorMessage
-    onConfirm={handleConfirm}
+    bind:isModalOpen={logic.isModalOpen}
+    bind:inputValue={logic.channelName}
+    bind:errorMessage={logic.errorMessage}
+    onConfirm={logic.handleConfirm}
   />
 {/if}
 
 <button
   class="w-1/2 animate-pulse grid text-white place-items-center border-2 border-white border-dashed bg-[#111111] hover:bg-[#3a3a3a] p-2 cursor-pointer"
-  onclick={() => (isModalOpen = true)}
+  onclick={() => (logic.isModalOpen = true)}
 >
   <p>You don't have any channels</p>
   <p>Click here to add a channel</p>

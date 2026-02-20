@@ -155,6 +155,6 @@
   </div>
 {:else}
   <div class="flex items-center justify-center h-full">
-    <NoChannel channels={channels.myChannels} bind:selectedChannelId />
+    <NoChannel bind:channels={channels.myChannels} bind:selectedChannelId />
   </div>
 {/if}
