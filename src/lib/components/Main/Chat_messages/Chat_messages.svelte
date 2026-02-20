@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IChannel, IMessage } from '$lib/apis/DTO/ITwitch';
+  import type { IChannel } from '$lib/apis/DTO/ITwitch';
   import ChatInput from '../Chat_input/Chat_input.svelte';
   import UserCard from '../User_card/User_card.svelte';
   import {
@@ -8,8 +8,8 @@
     formatBadgeUrl,
     handleMessageSubmit,
     toggleUserCard,
-    type ChatMessagesProps,
   } from './logic.svelte';
+  import type { ChatMessagesProps } from './props';
 
   let { selectedChannelId, channels = $bindable() }: ChatMessagesProps =
     $props();

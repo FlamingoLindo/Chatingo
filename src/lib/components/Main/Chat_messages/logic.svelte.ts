@@ -1,10 +1,5 @@
 import type { IChannel, IMessage } from "$lib/apis/DTO/ITwitch";
 
-export interface ChatMessagesProps {
-    selectedChannelId: number;
-    channels: IChannel[];
-}
-
 export function checkIfAtBottom(messagesContainer: HTMLDivElement): boolean {
     if (messagesContainer) {
         const threshold = 100;
