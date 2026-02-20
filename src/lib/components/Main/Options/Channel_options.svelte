@@ -1,29 +1,39 @@
 <script lang="ts">
-  import type { MyChannels } from '$lib/apis/DTO/ITwitch';
   import AddChannel from '../Add_channel/Add_channel.svelte';
   import OpenChannel from '../Open_channel/Open_channel.svelte';
+  import {
+    closeMenu,
+    getButtonElement,
+    getContextOpen,
+    getMenuAlignment,
+    getMenuElement,
+    getMenuPosition,
+    handleClickOutside,
+    setButtonElement,
+    setMenuAlignment,
+    setMenuElement,
+    setMenuPosition,
+    toggleContextOpen,
+  } from './logic.svelte';
+  import type { ChannelOptionsProps } from './props';
 
   let {
     channels = $bindable(),
     selectedChannelId = $bindable(),
     isTwitchOpen = $bindable(),
-  }: {
-    channels: MyChannels;
-    selectedChannelId: number;
-    isTwitchOpen: boolean;
-  } = $props();
+  }: ChannelOptionsProps = $props();
 
-  let contextOpen: boolean = $state(false);
-  let menuElement: HTMLDivElement | null = $state(null);
-  let buttonElement: HTMLButtonElement | null = $state(null);
-  let menuPosition = $state<'bottom' | 'top'>('bottom');
-  let menuAlignment = $state<'left' | 'right'>('left');
+  function bindButton(element: HTMLButtonElement) {
+    setButtonElement(element);
+  }
 
-  function closeMenu() {
-    contextOpen = false;
+  function bindMenu(element: HTMLDivElement) {
+    setMenuElement(element);
   }
 
   function calculatePosition() {
+    const buttonElement = getButtonElement();
+    const menuElement = getMenuElement();
     if (!buttonElement || !menuElement) return;
 
     const buttonRect = buttonElement.getBoundingClientRect();
@@ -35,40 +45,30 @@
     const spaceAbove = buttonRect.top;
 
     if (spaceBelow < menuRect.height && spaceAbove > spaceBelow) {
-      menuPosition = 'top';
+      setMenuPosition('top');
     } else {
-      menuPosition = 'bottom';
+      setMenuPosition('bottom');
     }
 
     const spaceRight = viewportWidth - buttonRect.left;
 
     if (spaceRight < menuRect.width) {
-      menuAlignment = 'right';
+      setMenuAlignment('right');
     } else {
-      menuAlignment = 'left';
+      setMenuAlignment('left');
     }
   }
 
   $effect(() => {
+    const contextOpen = getContextOpen();
+    const menuElement = getMenuElement();
     if (contextOpen && menuElement) {
       calculatePosition();
     }
   });
 
   $effect(() => {
-    if (!contextOpen) return;
-
-    function handleClickOutside(event: MouseEvent) {
-      const target = event.target as Node;
-      if (
-        menuElement &&
-        buttonElement &&
-        !menuElement.contains(target) &&
-        !buttonElement.contains(target)
-      ) {
-        closeMenu();
-      }
-    }
+    if (!getContextOpen()) return;
 
     document.addEventListener('click', handleClickOutside);
 
@@ -80,8 +80,8 @@
 
 <div class="relative w-max">
   <button
-    bind:this={buttonElement}
-    onclick={() => (contextOpen = !contextOpen)}
+    use:bindButton
+    onclick={toggleContextOpen}
     class="relative p-1 w-max border border-red-200 hover:bg-[#ff64676c] transition ease-in-out flex items-center mb-1.5 focus:ring-0 gap-1"
   >
     <svg
@@ -97,15 +97,15 @@
     </svg>
     Options
   </button>
-  {#if contextOpen}
+  {#if getContextOpen()}
     <div
-      bind:this={menuElement}
+      use:bindMenu
       class="absolute w-30 bg-[#111111] border border-gray-200 shadow-lg rounded z-1"
-      class:top-full={menuPosition === 'bottom'}
-      class:bottom-full={menuPosition === 'top'}
-      class:left-0={menuAlignment === 'left'}
-      class:right-0={menuAlignment === 'right'}
-      class:mb-1={menuPosition === 'top'}
+      class:top-full={getMenuPosition() === 'bottom'}
+      class:bottom-full={getMenuPosition() === 'top'}
+      class:left-0={getMenuAlignment() === 'left'}
+      class:right-0={getMenuAlignment() === 'right'}
+      class:mb-1={getMenuPosition() === 'top'}
     >
       <!-- Add new channel -->
       <AddChannel bind:channels bind:selectedChannelId onAction={closeMenu} />
