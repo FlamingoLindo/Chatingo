@@ -1,46 +1,17 @@
 <script lang="ts">
-  import type { MyChannels } from '$lib/apis/DTO/ITwitch';
   import CustomModal from '$lib/components/shared/Custom_modal/Custom_modal.svelte';
+  import type { AddChannelProps } from './props';
+  import { handleConfirm } from './logic.svelte';
 
   let {
     channels = $bindable(),
     selectedChannelId = $bindable(),
     onAction,
-  }: {
-    channels: MyChannels;
-    selectedChannelId: number | null;
-    onAction?: () => void;
-  } = $props();
+  }: AddChannelProps = $props();
 
   let isModalOpen: boolean = $state(false);
   let channelName: string = $state('');
   let errorMessage: string = $state('');
-
-  function handleConfirm() {
-    if (channelName.trim()) {
-      if (channels.some((channel) => channel.channel === channelName)) {
-        errorMessage = 'Channel already added!';
-        return;
-      }
-      let newId = channels.length + 1;
-      let newChannel = {
-        id: newId,
-        channel: channelName,
-        isLive: false,
-        newMessages: false,
-        isSelected: false,
-        messages: [],
-      };
-      channels.push(newChannel);
-      selectedChannelId = newId;
-      channelName = '';
-      errorMessage = '';
-      isModalOpen = false;
-      onAction?.(); // Close the context menu
-    } else {
-      errorMessage = 'Please enter a channel name';
-    }
-  }
 </script>
 
 <button
@@ -68,5 +39,12 @@
   bind:isModalOpen
   bind:inputValue={channelName}
   bind:errorMessage
-  onConfirm={handleConfirm}
+  onConfirm={() => {
+    const result = handleConfirm(channelName, channels, onAction);
+    channels = result.channels;
+    selectedChannelId = result.selectedChannelId ?? selectedChannelId;
+    channelName = result.channelName;
+    errorMessage = result.errorMessage;
+    isModalOpen = result.isModalOpen;
+  }}
 />
