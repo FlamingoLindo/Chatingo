@@ -6,7 +6,7 @@
   let {
     channels = $bindable(),
     selectedChannelId = $bindable(),
-  }: NoChannelProps & { selectedChannelId: number } = $props();
+  }: NoChannelProps = $props();
 
   const logic = createNoChannelLogic(() => channels, (id) => {
     selectedChannelId = id;

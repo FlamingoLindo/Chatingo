@@ -3,6 +3,8 @@
   import CustomModal from '$lib/components/shared/Custom_modal/Custom_modal.svelte';
   import NoChannel from '../No_channel/No_channel.svelte';
   import ChannelOptions from '../Options/Channel_options.svelte';
+  import { selectChannel, removeChannel, openRemoveModal, handleWheel } from './logic.svelte';
+  import type { ChannelListProps } from './props';
 
   let {
     channels = $bindable({
@@ -10,82 +12,42 @@
     }),
     selectedChannelId = $bindable(),
     isTwitchOpen = $bindable(false),
-  }: {
-    channels: { myChannels: IChannel[] };
-    selectedChannelId: number;
-    isTwitchOpen: boolean;
-  } = $props();
-  let isModalOpen: boolean = $state(false);
+  }: ChannelListProps = $props();
 
-  function selectChannel(id: number) {
-    selectedChannelId = id;
-    channels.myChannels.forEach((c: IChannel) => {
-      c.isSelected = c.id === id;
-      if (c.id === id) {
-        c.newMessages = false;
-      }
-    });
-  }
+  let isModalOpen: boolean = $state(false);
 
   $effect(() => {
     channels.myChannels.forEach((c: IChannel) => {
       c.isSelected = c.id === selectedChannelId;
     });
   });
-
-  function openRemoveModal(id: number) {
-    selectedChannelId = id;
-    isModalOpen = true;
-  }
-
-  function removeChannel() {
-    if (selectedChannelId !== null) {
-      channels.myChannels = channels.myChannels.filter(
-        (c: IChannel) => c.id !== selectedChannelId
-      );
-      if (channels.myChannels.length > 0) {
-        channels.myChannels[0].isSelected = true;
-        selectedChannelId = channels.myChannels[0].id;
-      }
-      isModalOpen = false;
-    }
-  }
-
-  function handleWheel(event: WheelEvent) {
-    event.preventDefault();
-    const currentIndex = channels.myChannels.findIndex(
-      (c: IChannel) => c.isSelected
-    );
-    let nextIndex;
-
-    if (event.deltaY > 0) {
-      nextIndex = (currentIndex + 1) % channels.myChannels.length;
-    } else {
-      nextIndex =
-        (currentIndex - 1 + channels.myChannels.length) %
-        channels.myChannels.length;
-    }
-
-    selectChannel(channels.myChannels[nextIndex].id);
-  }
 </script>
 
 {#if channels.myChannels?.length > 0}
   <div
     class="text-white text-xs flex justify-between bg-[#111111]"
-    onwheel={handleWheel}
+    onwheel={(e) => {
+      selectedChannelId = handleWheel(e, channels);
+    }}
   >
     <CustomModal
       title={'Remove this channel'}
       text={'Are you sure that you want to remove this channel?'}
       bind:isModalOpen
-      onConfirm={removeChannel}
+      onConfirm={() => {
+        const result = removeChannel(selectedChannelId, channels);
+        channels = result.channels;
+        selectedChannelId = result.selectedChannelId;
+        isModalOpen = result.isModalOpen;
+      }}
     />
     <ul class="flex flex-wrap">
       {#each channels.myChannels as channel}
         <!-- Channel -->
         <button
-          onclick={() => selectChannel(channel.id)}
+          onclick={() => {
+            selectedChannelId = selectChannel(channel.id, channels);
+          }}
           class="relative mr-1 p-1 min-w-24 border border-red-200 hover:bg-[#ff64676c] transition ease-in-out flex items-center {channel.isSelected
             ? 'bg-[#ffffff6c]'
             : ''} mb-1.5"
@@ -121,12 +83,16 @@
                 class="hover:bg-[#ffffff36]"
                 onclick={(e) => {
                   e.stopPropagation();
-                  openRemoveModal(channel.id);
+                  const result = openRemoveModal(channel.id);
+                  selectedChannelId = result.selectedChannelId;
+                  isModalOpen = result.isModalOpen;
                 }}
                 onkeydown={(e) => {
                   if (e.key === 'Enter') {
                     e.stopPropagation();
-                    openRemoveModal(channel.id);
+                    const result = openRemoveModal(channel.id);
+                    selectedChannelId = result.selectedChannelId;
+                    isModalOpen = result.isModalOpen;
                   }
                 }}
               >

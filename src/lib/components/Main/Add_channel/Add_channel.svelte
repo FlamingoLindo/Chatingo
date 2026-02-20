@@ -8,7 +8,7 @@
     onAction,
   }: {
     channels: MyChannels;
-    selectedChannelId: number;
+    selectedChannelId: number | null;
     onAction?: () => void;
   } = $props();
 
